@@ -1,0 +1,14 @@
+﻿@page 
+@model Memos.Pages.CreatorsModel
+@{
+     ViewData["Title"] = "Uživatelské poznámky";
+}
+<ul>
+    @foreach (var memo in Model.Creators)
+    {
+        <li>
+            @memo.FirstName
+            <a asp-page="./Memos" asp-route-CreatorID="@memo.CreatorId">Moje poznámky</a>
+        </li>
+    }
+</ul>

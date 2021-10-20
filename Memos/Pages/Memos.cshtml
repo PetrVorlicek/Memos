@@ -1,0 +1,54 @@
+﻿@page "{CreatorID:int?}"
+@model Memos.Pages.MemosModel
+@{
+     ViewData["Title"] = "Memos";
+}
+
+<!--ZOBRAZENÍ POZNÁMEK-->
+<div class="container">
+    @for (int i = 0; i < Model.Memos.Count; i+=4)
+    {
+        <div class="row">
+        @for (int j = i; j < i+4 && j< Model.Memos.Count; j++ )
+        {
+                var memo = Model.Memos[j];
+                <div class="col-sm">
+                <!--Expired poznámky nelze upravovat standardním způsobem-->
+                @if (memo.ExpiredDate.HasValue)
+                    {
+                        @memo.MemoHeader
+                        <a asp-page="./MemoDelete" asp-route-MemoID="@memo.MemoId">Smazat navždy</a>
+                    }
+                else
+                    {
+                        <a asp-page="./MemoDetail" asp-route-MemoID="@memo.MemoId">@memo.MemoHeader</a>
+                    }
+                </div>
+        }
+        </div>
+        
+    }
+</div>
+
+<!--TVORBA POZNÁMKY-->
+@if (Model.Creators.Any())
+{
+    <form method="post">
+        <p class="text-danget">Pozor! Není nastavena validace!</p>
+        <label asp-for="CreatorID">Vyberte tvůrce:</label>
+        <select asp-for="CreatorID" asp-items="Model.Creators"></select>
+        <br>
+        <label asp-for="MemoHeader">Nadpis: Max 80 znaků</label>
+        <input asp-for="MemoHeader" />
+        <br>
+        <label asp-for="MemoBody">Poznámka: Max 280 znaků</label>
+        <input asp-for="MemoBody" />
+        <input type="submit" value="Odeslat"/>
+    </form>
+} else
+{
+    <div>
+        <p>Nelze vytvořit novou poznámku, nenalezeni žádní uživatelé!</p>
+    </div>
+}
+ 

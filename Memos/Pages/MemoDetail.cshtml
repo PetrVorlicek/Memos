@@ -1,0 +1,17 @@
+﻿@page "{MemoID:int}"
+@model Memos.Pages.MemoDetailModel
+@{
+}
+
+<div>
+    <h5>@Model.Memo.MemoHeader</h5>
+    <p>@Model.Memo.MemoBody</p>
+    <p>Vytvořeno: @Model.Memo.CreatedDate</p>
+    @if(!Model.Memo.ExpiredDate.HasValue)
+    {
+    <form method="POST">
+        <input type="submit" value="Vyřídit poznámku"/>
+    </form>
+    }
+
+</div>
